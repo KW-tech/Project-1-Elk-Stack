@@ -28,19 +28,14 @@ After this was verified to have run successfully, a Load Balancer was added.  Ht
 
 # The following begins the Elk Server Creation:
 
-The following files have been tested and used to generate a live ELK deployment on Azure. They can be used to either recreate the entire deployment pictured above. Alternatively, select portions of the [configuration](https://github.com/KW-tech/Project-1-Elk-Stack/blob/main/files/filebeat-config.yml) file may be used to install only certain pieces of it, such as Filebeat.
+The following files have been tested and used to generate a live ELK deployment on Azure. They can be used to either recreate the entire deployment pictured above. Alternatively, select portions of the [configuration](https://github.com/KW-tech/Project-1-Elk-Stack/blob/main/files/filebeat-config.yml) file may be used to install only certain pieces of it, such as Filebeat.  And the [configuration](https://github.com/KW-tech/Project-1-Elk-Stack/blob/main/files/metricbeat-config.yml) for the Metricbeat.
 
-This configuration file had many commented out options. Many of those I cut out of the configuration file included in this document. 
+These configuration files had many commented out options. Many of those I cut out of the configuration depicted in this document.
+
+The individual playbooks used install and launch Filebeat and Metricbeat are below.  Both are installed on each Webserver VM.  This is known by the "hosts" being defined in each of these files as 'webservers' (and are defined in the hosts file).
 
   [filebeat-playbook](https://github.com/KW-tech/Project-1-Elk-Stack/blob/main/files/filebeat-playbook.yml)
-
-This document contains the following details:
-- Description of the Topology
-- Access Policies
-- ELK Configuration
-  - Beats in Use
-  - Machines Being Monitored
-- How to Use the Ansible Build
+  [metricbeat-playbook](https://github.com/KW-tech/Project-1-Elk-Stack/blob/main/files/metricbeat-playbook.yml)
 
 
 ### Description of the Topology
@@ -77,11 +72,11 @@ Machines within the network can only be accessed by the Jump Box.
 
 A summary of the access policies in place can be found in the table below.
 
-| Name       | Publicly Accessible | Allowed IP Addresses |
-|------------|---------------------|----------------------|
-| Jump Box   | Yes (only fm laptop)|  20.185.88.203 (SSH) |
-| Web Servrs |  Only via Load Bal  |     168.62.51.90     |
-| Elk Server |  Yes (via laptop)   |   20.94.49.96  (TCP) |
+| Name        | Publicly Accessible | Allowed IP Addresses |
+|-------------|---------------------|----------------------|
+| Jump Box    | Yes (only fm laptop)|  20.185.88.203 (SSH) |
+| Web Servers |  Only via Load Bal  |     168.62.51.90     |
+| Elk Server  |  Yes (via laptop)   |   20.94.49.96  (TCP) |
 
 After adding the rest of the network, My layout looked like this:
 
