@@ -34,8 +34,7 @@ These configuration files had many commented out options. Many of those I cut ou
 
 The individual playbooks used install and launch Filebeat and Metricbeat are below.  Both are installed on each Webserver VM.  This is known by the "hosts" being defined in each of these files as 'webservers' (and are defined in the hosts file).
 
-  [filebeat-playbook](https://github.com/KW-tech/Project-1-Elk-Stack/blob/main/files/filebeat-playbook.yml)
-  
+  [filebeat-playbook](https://github.com/KW-tech/Project-1-Elk-Stack/blob/main/files/filebeat-playbook.yml)   
   [metricbeat-playbook](https://github.com/KW-tech/Project-1-Elk-Stack/blob/main/files/metricbeat-playbook.yml)
 
 
