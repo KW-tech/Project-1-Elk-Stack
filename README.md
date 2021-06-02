@@ -79,15 +79,27 @@ A summary of the access policies in place can be found in the table below.
 
 | Name       | Publicly Accessible | Allowed IP Addresses |
 |------------|---------------------|----------------------|
-| Jump Box   | Yes (only fm laptop)| 20.185.88.203 (SSH)  |
-| Web Servrs |  Only via Load Bal  | 168.62.51.90         |
-|            |                     |                      |
+| Jump Box   | Yes (only fm laptop)|  20.185.88.203 (SSH) |
+| Web Servrs |  Only via Load Bal  |     168.62.51.90     |
+| Elk Server |  Yes (via laptop)   |   20.94.49.96  (TCP) |
 
 After adding the rest of the network, My layout looked like this:
 
 ![image2](https://github.com/KW-tech/Project-1-Elk-Stack/blob/main/images/Final%20VNet.png)
 
-
+### Due to the Limitations of the Azure trial environment:
+  
+  Several things becamce necessary in the setup that actually displays the wide uses of the cloud.
+  
+  First - only 4 virtual CPUs can be used within any network.  So a new unrelated network needed to be created.
+    This is the **ProjectNet** - it has its own seperate subnet 10.1.0.0/16.  Normally, this would cause communication issues.
+    However, "Peering" was initiated between the two Networks.  This allowed them to communicate across each other's subnets
+    (there was a peering from the Red Network to the Elk Network and one from the Elk Network to the Red Network.
+    This allowed both the Jump-Box to load the info onto the Elk Server and allowed the Elk Server to collect the log info
+    from the Web-servers.  All of this was done without the need to add special rules to the Security Groups (firewalls).
+  Next the ProjectNet was also placed in a different Region and a diferent availability group (this is not depicted in the diagram.)  
+    
+    
 ### Elk Configuration
 
 Ansible was used to automate configuration of the ELK machine. No configuration was performed manually, which is advantageous because...
