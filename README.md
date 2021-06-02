@@ -14,7 +14,9 @@ An SSH Key was generated and used between the outside (local workstation) and th
 
 From within the Docker Container, another SSH key was generated and this was used to establish the needed security between the Jump-Box and each of the VMs (web servers).  A YAML script was written to "load" the individual VMs.  This was used to guarantee that each VM had the same setup.  Initially, the first VM (Web-1) was loaded and checked to be sure that everything from the script installed correctly.  The '[hosts](https://github.com/KW-tech/Project-1-Elk-Stack/blob/main/files/hosts)' file (located in the /etc/ansible/ folder in the ansible container) defined the destination by placing the private IP of the Web-1 server in the [webservers] section of the file.  Once this build was verified to be functioning, the other 2 VMs were created and their private IPs were added to the 'hosts' file and the Ansible Playbook ([my-playbook](https://github.com/KW-tech/Project-1-Elk-Stack/blob/main/files/my-playbook.yml)), was run again.
 
-These files have been tested and used to generate a live ELK deployment on Azure. They can be used to either recreate the entire deployment pictured above. Alternatively, select portions of the [configuration](https://github.com/KW-tech/Project-1-Elk-Stack/blob/main/files/filebeat-config.yml) file may be used to install only certain pieces of it, such as Filebeat.
+Once this was verified to have run successfully, a Load Balancer was added.  Http Rules to it from the outside were added to the Network Security Group (firewall) and the 3 Web Servers were added to the Load Balancer's Back end pool.  This gave the all 3 VMs the same Public IP address (that if the Load Balancer).
+
+The following files have been tested and used to generate a live ELK deployment on Azure. They can be used to either recreate the entire deployment pictured above. Alternatively, select portions of the [configuration](https://github.com/KW-tech/Project-1-Elk-Stack/blob/main/files/filebeat-config.yml) file may be used to install only certain pieces of it, such as Filebeat.
 
   [filebeat-playbook](https://github.com/KW-tech/Project-1-Elk-Stack/blob/main/files/filebeat-playbook.yml)
 
@@ -31,22 +33,23 @@ This document contains the following details:
 
 The main purpose of this network is to expose a load-balanced and monitored instance of DVWA, the D*mn Vulnerable Web Application.
 
-Load balancing ensures that the application will be highly _____, in addition to restricting _____ to the network.
-- _TODO: What aspect of security do load balancers protect? What is the advantage of a jump box?_
+Load balancing ensures that the application will be highly available, in addition to restricting outside / unwanted access to the network.
+  - Load Balancers guarantee a higher chance of applications being able to be reached when the server is called on from the internet.  Since the same applications are running on multiple servers, teh Load Balancer does just what its name suggests.  It balances the load between all available servers.  If one goes down, the traffic will be directed to another.
+  
+  - The Jump Box, provides a crucial function.  It allows the loading of each server in a secure way that has very limited access.  This access is different from the applications running, that need accessed from the internet.  This loading allows for the quick spin-up and down of individual VMs.  One could be taken offline and another created and loaded with the same applications by running the playbook that created the first set of servers.
 
-Integrating an ELK server allows users to easily monitor the vulnerable VMs for changes to the _____ and system _____.
-- _TODO: What does Filebeat watch for?_
-- _TODO: What does Metricbeat record?_
+Integrating an ELK server allows users to easily monitor the vulnerable VMs for changes to the logs and system metrics.
+- Filebeat monitors the log files or locations that are specified and collects log events and forwards them for indexing (with Elasticsearch or LogStash)
+- Metricbeat periodically collects metrics and statistics and ships them to the output specified, such as Elasticsearch or Logstash.
 
 The configuration details of each machine may be found below.
-_Note: Use the [Markdown Table Generator](http://www.tablesgenerator.com/markdown_tables) to add/remove values from the table_.
 
 | Name     | Function | IP Address | Operating System |
 |----------|----------|------------|------------------|
-| Jump Box | Gateway  | 10.0.0.1   | Linux            |
-| TODO     |          |            |                  |
-| TODO     |          |            |                  |
-| TODO     |          |            |                  |
+| Jump Box | Gateway  |  10.0.0.4  | Linux            |
+| Web-1    | Server   |  10.0.0.6  | Linux            |
+| Web-2    | Server   |  10.0.0.7  | Linux            |
+| Web-3    | Server   |  10.0.0.8  | Linux            |
 
 ### Access Policies
 
