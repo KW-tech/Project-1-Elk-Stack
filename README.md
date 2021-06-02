@@ -30,7 +30,7 @@ After this was verified to have run successfully, a Load Balancer was added.  Ht
 
 The following files have been tested and used to generate a live ELK deployment on Azure. They can be used to either recreate the entire deployment pictured above. Alternatively, select portions of the [configuration](https://github.com/KW-tech/Project-1-Elk-Stack/blob/main/files/filebeat-config.yml) file may be used to install only certain pieces of it, such as Filebeat.
 
-This configuration file had many commented out options.  
+This configuration file had many commented out options. Many of those I cut out of the configuration file included in this document. 
 
   [filebeat-playbook](https://github.com/KW-tech/Project-1-Elk-Stack/blob/main/files/filebeat-playbook.yml)
 
