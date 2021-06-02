@@ -1,6 +1,6 @@
 ## Automated ELK Stack Deployment
 
-The files in this repository were used to configure the network depicted below.  And later, additional files would add to and implement the ELK-Stack Server for monitoring the logs of the Web Servers shown below:
+The files in this repository were used to configure the network depicted below.  And later, additional files would add to this setup, and implement the ELK-Stack Server for monitoring the logs of the Web Servers shown below:
 
 ![image](https://github.com/KW-tech/Project-1-Elk-Stack/blob/main/images/VNet%20before%20ELK.png)
 
@@ -8,11 +8,11 @@ This was the starting point for the ELK-Stack Server Project.
 
 In the Cloud, a Resource Group was defined (Red-Team), and within it, the Virtual Network (RedTeamNet).  A Network Security Group (or Firewall) was defined with rules to drastically reduce access to the network from the outside.  (This allowed only a single public IP SSH access to the network).  The Jump-Box was created first, with its Private IP.  The Jump-box also had a Public IP address so as to allow for connection from the outside.
 
-Next the Web Servers (Web-1, Web-2, and Web-3) were created with only internal (private) IP addresses.
+Next the Web Servers (Web-1 first, and then Web-2 and Web-3) were created with only internal (private) IP addresses.
 
 An SSH Key was generated and used between the outside (local workstation) and the Jump-Box.  Docker was downloaded using the curl command and installed on the Jump-Box.  Once the Docker container was established, it was started and attached to.  From within this container the deployment could commense.  Ansible was also downloaded using a curl command.
 
-From within the Docker Container, another SSH key was generated and this was used to establish the needed security between the Jump-Box and each of the VMs (web servers).  A YAML script was written to "load" the individual VMs.  This was used to guarantee that each VM had the same setup.  Initially the first VM (Web-1) was loaded and checked to be sure that everything from the script installed correctly.  The '[hosts](https://github.com/KW-tech/Project-1-Elk-Stack/blob/main/files/hosts)' file (located in the /etc/ansible/ folder in the ansible container) defined the destination by placing the private IP of the Web-1 server in the [webservers] section of the file.
+From within the Docker Container, another SSH key was generated and this was used to establish the needed security between the Jump-Box and each of the VMs (web servers).  A YAML script was written to "load" the individual VMs.  This was used to guarantee that each VM had the same setup.  Initially, the first VM (Web-1) was loaded and checked to be sure that everything from the script installed correctly.  The '[hosts](https://github.com/KW-tech/Project-1-Elk-Stack/blob/main/files/hosts)' file (located in the /etc/ansible/ folder in the ansible container) defined the destination by placing the private IP of the Web-1 server in the [webservers] section of the file.  Once this build was verified to be functioning, the other 2 VMs were created and their private IPs were added to the 'hosts' file and the Ansible Playbook ([my-playbook](https://github.com/KW-tech/Project-1-Elk-Stack/blob/main/files/my-playbook.yml)), was run again.
 
 These files have been tested and used to generate a live ELK deployment on Azure. They can be used to either recreate the entire deployment pictured above. Alternatively, select portions of the _____ file may be used to install only certain pieces of it, such as Filebeat.
 
