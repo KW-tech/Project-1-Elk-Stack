@@ -30,6 +30,8 @@ After this was verified to have run successfully, a Load Balancer was added.  Ht
 
 The following files have been tested and used to generate a live ELK deployment on Azure. They can be used to either recreate the entire deployment pictured above. Alternatively, select portions of the [configuration](https://github.com/KW-tech/Project-1-Elk-Stack/blob/main/files/filebeat-config.yml) file may be used to install only certain pieces of it, such as Filebeat.
 
+This configuration file had many commented out options.  
+
   [filebeat-playbook](https://github.com/KW-tech/Project-1-Elk-Stack/blob/main/files/filebeat-playbook.yml)
 
 This document contains the following details:
@@ -46,7 +48,7 @@ This document contains the following details:
 The main purpose of this network is to expose a load-balanced and monitored instance of DVWA, the D*mn Vulnerable Web Application.
 
 Load balancing ensures that the application will be highly available, in addition to restricting outside / unwanted access to the network.
-  - Load Balancers guarantee a higher chance of applications being able to be reached when the server is called on from the internet.  Since the same applications are running on multiple servers, teh Load Balancer does just what its name suggests.  It balances the load between all available servers.  If one goes down, the traffic will be directed to another.
+  - Load Balancers guarantee a higher chance of applications being able to be reached when the server is called on from the internet.  Since the same applications are running on multiple servers, the Load Balancer does just what its name suggests.  It balances the load between all available servers.  If one goes down, the traffic will be directed to another.
   
   - The Jump Box, provides a crucial function.  It allows the loading of each server in a secure way that has very limited access.  This access is different from the applications running, that need accessed from the internet.  This loading allows for the quick spin-up and down of individual VMs.  One could be taken offline and another created and loaded with the same applications by running the playbook that created the first set of servers.
 
@@ -67,33 +69,44 @@ The configuration details of each machine may be found below.
 
 The machines on the internal network are not exposed to the public Internet. 
 
-Only the _____ machine can accept connections from the Internet. Access to this machine is only allowed from the following IP addresses:
-- _TODO: Add whitelisted IP addresses_
+Only the Load Balancer machine can accept connections from the Internet.  It then directs the traffic to the individual Web Servers as the load dictates.  Access to this machine is only allowed from the following IP addresses: 24.149.74.212
 
-Machines within the network can only be accessed by _____.
-- _TODO: Which machine did you allow to access your ELK VM? What was its IP address?_
+
+Machines within the network can only be accessed by the Jump Box.
+- The Jump Box can access the Elk Server (for loading / configuring)  The Local workstation (laptop) can access the Elk Server via a Web Interface (of Kibana) - (from the public IP address)  - its address is 24.149.74.212
 
 A summary of the access policies in place can be found in the table below.
 
-| Name     | Publicly Accessible | Allowed IP Addresses |
-|----------|---------------------|----------------------|
-| Jump Box | Yes/No              | 10.0.0.1 10.0.0.2    |
-|          |                     |                      |
-|          |                     |                      |
+| Name       | Publicly Accessible | Allowed IP Addresses |
+|------------|---------------------|----------------------|
+| Jump Box   | Yes (only fm laptop)| 20.185.88.203 (SSH)  |
+| Web Servrs |  Only via Load Bal  | 168.62.51.90         |
+|            |                     |                      |
+
+After adding the rest of the network, My layout looked like this:
+
+![image2](https://github.com/KW-tech/Project-1-Elk-Stack/blob/main/images/Final%20VNet.png)
+
 
 ### Elk Configuration
 
 Ansible was used to automate configuration of the ELK machine. No configuration was performed manually, which is advantageous because...
-- _TODO: What is the main advantage of automating configuration with Ansible?_
+- Since nothing manual was done, nothing will be missed in the eventuality that another server doing the same or similar montioring is needed.  Also if an update is needed, this can also be added to the YAML script and it can be rerun.  All needed info would be included in the install.
 
-The playbook implements the following tasks:
-- _TODO: In 3-5 bullets, explain the steps of the ELK installation play. E.g., install Docker; download image; etc._
-- ...
-- ...
+First the Elk Server Internal IP address is added to the '[hosts](https://github.com/KW-tech/Project-1-Elk-Stack/blob/main/files/hosts)' file with its own header [elk].  When the Ansible Playbook is run calling out this('elk') as the "hosts" variable - only those VMs listed will be affected by the playbook.
 
+The [install-elk](https://github.com/KW-tech/Project-1-Elk-Stack/blob/main/files/install-elk.yml) playbook implements the following tasks:
+- First, Docker.io is installed using apt 
+- Next, Python3-pip is installed using apt
+- Docker is then activated using pip
+- The virtual memory is incerased to 262144 to allow for the processing of the log info.
+- Finally the Elk container is downloaded and launched using the sebp image version 761 and the needed ports are opened
+- systemd is utilized to enable the Docker on reboot of the VM.
+
+After deploying this install, teh Elk-Server is SSH'd into and the command run:'sudo docker ps'.
 The following screenshot displays the result of running `docker ps` after successfully configuring the ELK instance.
 
-![TODO: Update the path with the name of your screenshot of docker ps output](Images/docker_ps_output.png)
+![image1](https://github.com/KW-tech/Project-1-Elk-Stack/blob/main/images/Elk%20-%20step%20%234%20.png)
 
 ### Target Machines & Beats
 This ELK server is configured to monitor the following machines:
