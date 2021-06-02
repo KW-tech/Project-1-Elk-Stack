@@ -14,9 +14,9 @@ An SSH Key was generated and used between the outside (local workstation) and th
 
 From within the Docker Container, another SSH key was generated and this was used to establish the needed security between the Jump-Box and each of the VMs (web servers).  A YAML script was written to "load" the individual VMs.  This was used to guarantee that each VM had the same setup.  Initially, the first VM (Web-1) was loaded and checked to be sure that everything from the script installed correctly.  The '[hosts](https://github.com/KW-tech/Project-1-Elk-Stack/blob/main/files/hosts)' file (located in the /etc/ansible/ folder in the ansible container) defined the destination by placing the private IP of the Web-1 server in the [webservers] section of the file.  Once this build was verified to be functioning, the other 2 VMs were created and their private IPs were added to the 'hosts' file and the Ansible Playbook ([my-playbook](https://github.com/KW-tech/Project-1-Elk-Stack/blob/main/files/my-playbook.yml)), was run again.
 
-These files have been tested and used to generate a live ELK deployment on Azure. They can be used to either recreate the entire deployment pictured above. Alternatively, select portions of the _____ file may be used to install only certain pieces of it, such as Filebeat.
+These files have been tested and used to generate a live ELK deployment on Azure. They can be used to either recreate the entire deployment pictured above. Alternatively, select portions of the [configuration](https://github.com/KW-tech/Project-1-Elk-Stack/blob/main/files/filebeat-config.yml) file may be used to install only certain pieces of it, such as Filebeat.
 
-  - _TODO: Enter the playbook file._
+  [filebeat-playbook](https://github.com/KW-tech/Project-1-Elk-Stack/blob/main/files/filebeat-playbook.yml)
 
 This document contains the following details:
 - Description of the Topology
