@@ -10,9 +10,9 @@ This was the starting point for the ELK-Stack Server Project.
 >   Within this Resource Group, the Virtual Network (**RedTeamNet**) was defined.
 >     A Network Security Group (or Firewall) (**RedTeamNSG**) was defined with rules to drastically reduce access to the network from the outside.  (This allowed only a single public IP SSH access to the network).
      
-The **Jump-Box** was created first, with its Private IP.  The Jump-box also had a Public IP address so as to allow for connection from the outside.
+The **Jump-Box** was created first, with its Private IP.  The Jump-box also had a Public IP address, so as to allow for connection from the outside.
 
-Next the Web Servers (**Web-1** first, and then **Web-2** and **Web-3**) were created with only internal (private) IP addresses.
+Next, the Web Servers (**Web-1** first, and then **Web-2** and **Web-3**) were created with only internal (private) IP addresses.
 
 An SSH Key was generated and used between the outside (local workstation) and the Jump-Box.  This allowed for even more security.  The SSH Key was defined from my laptop at a specific Public IP address.  Even if someone else was in my network (they would have the same outgoing IP, but the Key would not be verified.
 
@@ -20,9 +20,9 @@ Docker was downloaded using the curl command and installed on the Jump-Box.  Onc
 
 From within the this Docker Container, another SSH key was generated and this was used to establish the needed security between the Jump-Box and each of the VMs (web servers).  A YAML script was written to "load" the individual VMs.  This was used to guarantee that each VM had the same setup.  Initially, only the first VM (Web-1) was loaded and checked to be sure that everything from the script installed correctly.  The '[hosts](https://github.com/KW-tech/Project-1-Elk-Stack/blob/main/files/hosts-a)' file (located in the /etc/ansible/ folder in the Docker container) defined the destination by placing the private IP of the Web-1 server in the [webservers] section of the file.  
 
-** Note the IP info under the [webservers] label in this file.
+**Note the IP info under the [webservers] label in this file**.
 
-Once this build was verified to be functioning, the other 2 VMs were created and their private IPs were added to the 'hosts' file and the Ansible Playbook ([my-playbook](https://github.com/KW-tech/Project-1-Elk-Stack/blob/main/files/my-playbook.yml)), was run again.
+Once this build was verified to be functioning, the other 2 VMs were created and their private IPs were added to this updated '[hosts](https://github.com/KW-tech/Project-1-Elk-Stack/blob/main/files/hosts-b)' file and the Ansible Playbook ([my-playbook](https://github.com/KW-tech/Project-1-Elk-Stack/blob/main/files/my-playbook.yml)), was run again.
 
 After this was verified to have run successfully, a Load Balancer was added.  Http Rules to it from the outside were added to the Network Security Group (firewall) and the 3 Web Servers were added to the Load Balancer's Back End Pool.  This gave the all 3 VMs the same Public IP address (that of the Load Balancer).
 
