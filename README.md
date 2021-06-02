@@ -22,9 +22,11 @@ From within the this Docker Container, another SSH key was generated and this wa
 
 **Note the IP info under the [webservers] label in this file**.
 
-Once this build was verified to be functioning, the other 2 VMs were created and their private IPs were added to this updated '[hosts](https://github.com/KW-tech/Project-1-Elk-Stack/blob/main/files/hosts-b)' file and the Ansible Playbook ([my-playbook](https://github.com/KW-tech/Project-1-Elk-Stack/blob/main/files/my-playbook.yml)), was run again.
+Once this build was verified to be functioning, the other 2 VMs were created and their private IPs were added to this updated '[hosts](https://github.com/KW-tech/Project-1-Elk-Stack/blob/main/files/hosts-b)' file (**note the [webservers] section in this file**) and then the Ansible Playbook ([my-playbook](https://github.com/KW-tech/Project-1-Elk-Stack/blob/main/files/my-playbook.yml)), was run again.
 
 After this was verified to have run successfully, a Load Balancer was added.  Http Rules to it from the outside were added to the Network Security Group (firewall) and the 3 Web Servers were added to the Load Balancer's Back End Pool.  This gave the all 3 VMs the same Public IP address (that of the Load Balancer).
+
+# The following begins the Elk Server Creation:
 
 The following files have been tested and used to generate a live ELK deployment on Azure. They can be used to either recreate the entire deployment pictured above. Alternatively, select portions of the [configuration](https://github.com/KW-tech/Project-1-Elk-Stack/blob/main/files/filebeat-config.yml) file may be used to install only certain pieces of it, such as Filebeat.
 
