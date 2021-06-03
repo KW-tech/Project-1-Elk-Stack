@@ -34,8 +34,8 @@ These configuration files had many commented out options. Many of those I cut ou
 
 The individual playbooks that were used to install and launch Filebeat and Metricbeat are below.  Both are installed on each Webserver VM.  This is known by the "hosts" being defined in each of these files as 'webservers' (and are defined in the hosts file).
 
-  [filebeat-playbook](https://github.com/KW-tech/Project-1-Elk-Stack/blob/main/files/filebeat-playbook.yml)   
-  [metricbeat-playbook](https://github.com/KW-tech/Project-1-Elk-Stack/blob/main/files/metricbeat-playbook.yml)
+  [filebeat-playbook.yml](https://github.com/KW-tech/Project-1-Elk-Stack/blob/main/files/filebeat-playbook.yml)   
+  [metricbeat-playbook.yml](https://github.com/KW-tech/Project-1-Elk-Stack/blob/main/files/metricbeat-playbook.yml)
 
 
 ### Description of the Topology
@@ -65,11 +65,11 @@ The configuration details of each machine may be found below.
 
 The machines on the internal network are not exposed to the public Internet. 
 
-Only the Load Balancer machine can accept connections from the Internet.  It then directs the traffic to the individual Web Servers as the load dictates.  Access to this machine is only allowed from the following IP addresses: 24.149.74.212
+Only the Load Balancer machine can accept connections from the Internet.  It then directs the traffic to the individual Web Servers as the load dictates.  Access to this machine is only allowed from the following IP addresses: Workstaion Local Public IP.
 
 
 Machines within the network can only be accessed by the Jump Box.
-- The Jump Box can access the Elk Server (for loading / configuring)  The Local workstation (laptop) can access the Elk Server via a Web Interface (of Kibana) - (from the public IP address)  - its address is 24.149.74.212
+- The Jump Box can access the Elk Server (for loading / configuring)  The Local workstation (laptop) can access the Elk Server via a Web Interface (of Kibana) - (from the public IP address)  - its address is the Workstation Local Public IP.
 
 A summary of the access policies in place can be found in the table below.
 
@@ -85,21 +85,21 @@ After adding the rest of the network, My layout looked like this:
 
 ### Due to the Limitations of the Azure trial environment:
   
-  Several things becamce necessary in the setup that actually displays the wide uses of the cloud.
-  
-  First - only 4 virtual CPUs can be used within any network.  So a new unrelated network needed to be created.
-    This is the **ProjectNet** - it has its own seperate subnet 10.1.0.0/16.  Normally, this would cause communication issues.
-    However, "Peering" was initiated between the two Networks.  This allowed them to communicate across each other's subnets
-    (there was a peering from the Red Network to the Elk Network and one from the Elk Network to the Red Network.
-    This allowed both the Jump-Box to load the info onto the Elk Server and allowed the Elk Server to collect the log info
-    from the Web-servers.  All of this was done without the need to add special rules to the Security Groups (firewalls).
-  Next the ProjectNet was also placed in a different Region and a diferent availability group (this is not depicted in the diagram.)  
+>  Several things becamce necessary in the setup and this actually highlights the flexibility and uses of the Cloud.
+>  
+>  First - only 4 virtual CPUs can be used within any network.  So a new unrelated network needed to be created.
+>    This is the **ProjectNet** - it has its own seperate subnet 10.1.0.0/16.  Normally, this would cause communication issues.
+>    However, "Peering" was initiated between the two Networks.  This allowed them to communicate across each other's subnets.
+>    There was a peering from the Red Network to the Elk Network and one from the Elk Network to the Red Network.
+>    This allowed both the Jump-Box to load the info onto the Elk Server and allowed the Elk Server to collect the log info
+>    from the Web-servers.  All of this was done without the need to add special rules to the Security Groups (firewalls).
+>  Next - the ProjectNet was also placed in a different Region and availability zone (this is not depicted in the diagram.)  
     
     
 ### Elk Configuration
 
-Ansible was used to automate configuration of the ELK machine. No configuration was performed manually, which is advantageous because...
-- Since nothing manual was done, nothing will be missed in the eventuality that another server doing the same or similar montioring is needed.  Also if an update is needed, this can also be added to the YAML script and it can be rerun.  All needed info would be included in the install.
+Ansible was used to automate configuration of the ELK Server. No configuration was performed manually, which is advantageous because...
+- Since nothing manual was done, nothing will be missed in the eventuality that another server doing the same or similar monitoring is needed.  Also if an update is needed, this can also be added to the YAML script and it can be rerun.  All needed info would be included in the install.
 
 First the Elk Server Internal IP address is added to the '[hosts](https://github.com/KW-tech/Project-1-Elk-Stack/blob/main/files/hosts)' file with its own header [elk].  When the Ansible Playbook is run calling out this('elk') as the "hosts" variable - only those VMs listed will be affected by the playbook.
 
@@ -113,13 +113,13 @@ The [install-elk](https://github.com/KW-tech/Project-1-Elk-Stack/blob/main/files
 - Finally the Elk container is downloaded and launched using the sebp image version 761 and the needed ports are opened
 - systemd is utilized to enable the Docker on reboot of the VM.
 
-After deploying this install, teh Elk-Server is SSH'd into and the command run:'sudo docker ps'.
+After deploying this install, the Elk-Server is SSH'd into and the command run:'sudo docker ps'.
 The following screenshot displays the result of running `docker ps` after successfully configuring the ELK instance.
 
 ![image1](https://github.com/KW-tech/Project-1-Elk-Stack/blob/main/images/Elk%20-%20step%20%234%20.png)
 
 ### Target Machines & Beats
-This ELK server is configured to monitor the following machines:
+This ELK Server is configured to monitor the following machines:
 - The Elk Server actually just opened ports 5601, 9200, and 5044.  This was done in the **[install-elk](https://github.com/KW-tech/Project-1-Elk-Stack/blob/main/files/install-elk.yml)** file.
 
 The Elk Server is listening.  The actual connections are done through the individual Web Servers (Web-1 thru Web-3).  It is defined in the MetricBeat and Filebeat Configure files. The Elk Server's internal IP (10.1.0.4) and ports are defined in the **Elasticsearch and Kibana** sections of the two files
@@ -129,8 +129,8 @@ We have installed the following Beats on these machines:
 - **Metricbeat**
 
 These Beats allow us to collect the following information from each machine:
-- Metricbeat collects application into from Apache and / or HAProxy and this would gather information from web service being accessed.
-- Filebeats collects log files such as system logs or error logs.  This can be used to monitor login attempts and this was used to verify that is was actually working.  After the system was up and running - I made multiple attempts to SSH into each of the individual Web servers.  First was only Web-1.  Then a bit later I unsuccessfully attempted to log into each of the other two.  A screen shot is below:
+- Metricbeat collects application info from Apache and / or HAProxy and this would gather information any web service being accessed.
+- Filebeat collects log files such as system logs or error logs.  This can be used to monitor login attempts and this was used to verify that is was actually working.  After the system was up and running - I made multiple failed attempts to SSH into each of the individual Web servers.  First was only Web-1.  Then a bit later I unsuccessfully attempted to log into each of the other two.  A screen shot is below:
 ![image6](https://github.com/KW-tech/Project-1-Elk-Stack/blob/main/images/Kibana%20failed%20login.png)
 
 ### Using the Playbook
@@ -152,6 +152,6 @@ And after the **Metricbeat-playbook.yml**:
 In Summation of the info already discussed:
 - The Playbook files are those that end in -playbook.yml.  And they are copied into the /etc/ansible/roles/ folder - and run from there.
 
-- The 'hosts' file is the file that is modified to determine which machine the playbook is run on.  and this is done by adding the target machine's internal IP address under the Host category - either **[webservers]** or **[elk]** in this instance.  This 'hosts' file is located in tehh /etc/ansible/ folder along with the ansible.cfg file which was basically used to define the remote admin user for each machine so that the installation could continue.
+- The 'hosts' file is the file that is modified to determine which machine the playbook is run on.  And this is done by adding the target machine's internal IP address under the Host category - either **[webservers]** or **[elk]** in this scenario.  This 'hosts' file is located in the /etc/ansible/ folder along with the ansible.cfg file which was basically used to define the remote admin user for each machine so that the installation could continue.
 
 - Once the playbooks have run, navigate to the Elk Server's Public IP address which was 20.94.49.96:5601/app/kibana, which included the port and the application in order to check that the ELK server is running.
