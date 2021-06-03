@@ -129,7 +129,9 @@ We have installed the following Beats on these machines:
 - **Metricbeat**
 
 These Beats allow us to collect the following information from each machine:
-- _TODO: In 1-2 sentences, explain what kind of data each beat collects, and provide 1 example of what you expect to see. E.g., `Winlogbeat` collects Windows logs, which we use to track user logon events, etc._
+- Metricbeat collects application into from Apache and / or HAProxy and this would gather information from web service being accessed.
+- Filebeats collects log files such as system logs or error logs.  This can be used to monitor login attempts and this was used to verify that is was actually working.  After the system was up and running - I made multiple attempts to SSH into each of the individual Web servers.  First was only Web-1.  Then a bit later I unsuccessfully attempted to log into each of the other two.  A screen shot is below:
+![image6](https://github.com/KW-tech/Project-1-Elk-Stack/blob/main/images/Kibana%20failed%20login.png)
 
 ### Using the Playbook
 In order to use the playbook, you will need to have an Ansible control node already configured. Assuming you have such a control node provisioned: 
