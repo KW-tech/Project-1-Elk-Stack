@@ -141,15 +141,17 @@ SSH into the control node and follow the steps below:
 - Update the hosts file (as explained above) to include the internal IP addresses of each Web Server so that the beats are installed and configured on each server.
 - Run the playbook, and navigate to Elk Server's Public IP (specifying the port 5601) to check that the installation worked as expected.
 
-After running the filebeat-playbook.yml, the following user interface was seen:
+After running the **Filebeat-playbook.yml**, the following user interface was seen:
+
 ![image4](https://github.com/KW-tech/Project-1-Elk-Stack/blob/main/images/Elk%20Day%202%20Fileb.png)
 
-And after the Metricbeat-playbook:
+And after the **Metricbeat-playbook.yml**:
+
 ![image5](https://github.com/KW-tech/Project-1-Elk-Stack/blob/main/images/Elk%20Day%202%20metric.png)
 
-_TODO: Answer the following questions to fill in the blanks:_
-- _Which file is the playbook? Where do you copy it?_
-- _Which file do you update to make Ansible run the playbook on a specific machine? How do I specify which machine to install the ELK server on versus which to install Filebeat on?_
-- _Which URL do you navigate to in order to check that the ELK server is running?
+In Summation of the info already discussed:
+- The Playbook files are those that end in -playbook.yml.  And they are copied into the /etc/ansible/roles/ folder - and run from there.
 
-_As a **Bonus**, provide the specific commands the user will need to run to download the playbook, update the files, etc._
+- The 'hosts' file is the file that is modified to determine which machine the playbook is run on.  and this is done by adding the target machine's internal IP address under the Host category - either **[webservers]** or **[elk]** in this instance.  This 'hosts' file is located in tehh /etc/ansible/ folder along with the ansible.cfg file which was basically used to define the remote admin user for each machine so that the installation could continue.
+
+- Once the playbooks have run, navigate to the Elk Server's Public IP address which was 20.94.49.96:5601/app/kibana, which included the port and the application in order to check that the ELK server is running.
