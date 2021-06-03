@@ -103,6 +103,8 @@ Ansible was used to automate configuration of the ELK machine. No configuration 
 
 First the Elk Server Internal IP address is added to the '[hosts](https://github.com/KW-tech/Project-1-Elk-Stack/blob/main/files/hosts)' file with its own header [elk].  When the Ansible Playbook is run calling out this('elk') as the "hosts" variable - only those VMs listed will be affected by the playbook.
 
+As you can see - the **hosts** File can be continuously modified and reused as more VMs or options to the existing VMs are added or changed.  And by adding a whole other Host Category, a different set of VMs or options on some of the existing can be implemented.
+
 The [install-elk](https://github.com/KW-tech/Project-1-Elk-Stack/blob/main/files/install-elk.yml) playbook implements the following tasks:
 - First, Docker.io is installed using apt 
 - Next, Python3-pip is installed using apt
@@ -118,10 +120,13 @@ The following screenshot displays the result of running `docker ps` after succes
 
 ### Target Machines & Beats
 This ELK server is configured to monitor the following machines:
-- _TODO: List the IP addresses of the machines you are monitoring_
+- The Elk Server actually just opened ports 5601, 9200, and 5044.  This was done in the **[install-elk](https://github.com/KW-tech/Project-1-Elk-Stack/blob/main/files/install-elk.yml)** file.
+
+The Elk Server is listening.  The actual connections are done through the individual Web Servers (Web-1 thru Web-3).  It is defined in the MetricBeat and Filebeat Configure files. The Elk Server's internal IP (10.1.0.4) and ports are defined in the **Elasticsearch and Kibana** sections of the two files
 
 We have installed the following Beats on these machines:
-- _TODO: Specify which Beats you successfully installed_
+- **Filebeat**
+- **Metricbeat**
 
 These Beats allow us to collect the following information from each machine:
 - _TODO: In 1-2 sentences, explain what kind of data each beat collects, and provide 1 example of what you expect to see. E.g., `Winlogbeat` collects Windows logs, which we use to track user logon events, etc._
@@ -130,9 +135,15 @@ These Beats allow us to collect the following information from each machine:
 In order to use the playbook, you will need to have an Ansible control node already configured. Assuming you have such a control node provisioned: 
 
 SSH into the control node and follow the steps below:
-- Copy the _____ file to _____.
-- Update the _____ file to include...
-- Run the playbook, and navigate to ____ to check that the installation worked as expected.
+- Copy the configure files (filebeat-config.yml or metricbeat-configure.yml) to the /etc/ansible/files folder.  This location is defined in each respective playbook.
+- Update the hosts file (as explained above) to include the internal IP addresses of each Web Server so that the beats are installed and configured on each server.
+- Run the playbook, and navigate to Elk Server's Public IP (specifying the port 5601) to check that the installation worked as expected.
+
+After running the filebeat-playbook.yml, the following user interface was seen:
+![image4](https://github.com/KW-tech/Project-1-Elk-Stack/blob/main/images/Elk%20Day%202%20Fileb.png)
+
+And after the Metricbeat-playbook:
+![image5](https://github.com/KW-tech/Project-1-Elk-Stack/blob/main/images/Elk%20Day%202%20metric.png)
 
 _TODO: Answer the following questions to fill in the blanks:_
 - _Which file is the playbook? Where do you copy it?_
